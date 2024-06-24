@@ -5,9 +5,10 @@ import { StudentsService } from './students/students.service';
 
 // import { AppController } from './app.controller';
 // import { AppService } from './app.service';
+import { CoursesModule } from './courses/courses.module';
 
 @Module({
-  imports: [StudentsModule],
+  imports: [StudentsModule, CoursesModule],
   controllers: [StudentsController],
   providers: [StudentsService],
   exports: [], 

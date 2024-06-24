@@ -1,45 +1,53 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { ParseIntPipe } from '@nestjs/common';
+import { CreateStudentDto } from './dto/create-student.dto';
+import { UpdateStudentDto } from './dto/update-student.dto ';
 
 @Controller('students')
+// @UsePipes(ValidationPipe)
 export class StudentsController {
+  constructor(private readonly studentsService: StudentsService) {}
 
-    constructor(
-        private readonly studentsService:StudentsService
-    ){}
- 
+  @Get()
+  getAllStudents() {
+    return this.studentsService.getAllStudents();
+  }
 
-    @Get()
-    getAllStudents() {
-        return this.studentsService.getAllStudents()
-    }
+  @Get(':id')
+  getStudentById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    console.log({ id });
+    return this.studentsService.getStudentById(id);
+  }
 
-        @Get(':id')
-        getStudentById(@Param('id', ParseIntPipe ) id:number) {
-        console.log({id});
-            return this.studentsService.getStudentById(+id)
-    }
+  @Post()
+  // @UsePipes(ValidationPipe)
+  createStudent(@Body() createStudentDto: CreateStudentDto) {
+    console.log(createStudentDto);
+    return this.studentsService.create(createStudentDto);
+  }
 
-    @Post()
-    createStudent(@Body() body: any) {
-        return body;
-    }
+  @Patch(':id')
+  updateStudent(@Param('id', ParseUUIDPipe) id: string, @Body() updateStudentDto: UpdateStudentDto) {
+    return this.studentsService.updateStudent(id, updateStudentDto);
+  }
 
-    @Patch(':id')
-    updateStudent(
-        @Param('id', ParseIntPipe) id: number,
-        @Body() body: any)
-       {
-        return body;
-    }
-
-    @Delete(':id')
-    deleteStudent(@Param('id', ParseIntPipe) id: number) {
-        return {
-            method : 'delete',
-            id
-        };
-    }
-
+  @Delete(':id')
+  deleteStudent(@Param('id', ParseIntPipe) id: number) {
+    return {
+      method: 'delete',
+      id,
+    };
+  }
 }
