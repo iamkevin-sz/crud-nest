@@ -44,10 +44,8 @@ export class StudentsController {
   }
 
   @Delete(':id')
-  deleteStudent(@Param('id', ParseIntPipe) id: number) {
-    return {
-      method: 'delete',
-      id,
-    };
+  deleteStudent(@Param('id', ParseUUIDPipe) id: string) {
+    console.log('soy delete', id);
+    return this.studentsService.deteleStudent(id);
   }
 }

@@ -8,23 +8,23 @@ import { UpdateStudentDto } from './dto/update-student.dto ';
 @Injectable()
 export class StudentsService {
   private students: Student[] = [
-    {
-      id: uuid(),
-      name: 'Kevin',
-      city: 'Toronto',
-    },
+    // {
+    //   id: uuid(),
+    //   name: 'Kevin',
+    //   city: 'Toronto',
+    // },
 
-    {
-      id: uuid(),
-      name: 'John',
-      city: 'Vancouver',
-    },
+    // {
+    //   id: uuid(),
+    //   name: 'John',
+    //   city: 'Vancouver',
+    // },
 
-    {
-      id: uuid(),
-      name: 'Mary',
-      city: 'Calgary',
-    },
+    // {
+    //   id: uuid(),
+    //   name: 'Mary',
+    //   city: 'Calgary',
+    // },
   ];
 
   getAllStudents() {
@@ -73,5 +73,13 @@ export class StudentsService {
     return studentDb;
   }
 
+  deteleStudent(id: string) {
+    const student = this.getStudentById(id);
+    this.students = this.students.filter((student) => student.id !== id);
+  }
 
+
+  fillStudentWithSeedData(students: Student[]) {
+    this.students = students;
+  }
 }
